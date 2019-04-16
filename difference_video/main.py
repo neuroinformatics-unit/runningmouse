@@ -9,6 +9,11 @@ import tools.tools as tools
 
 
 def main():
+    """
+    Takes a video, crops the left half, calculates the v(t) - v(t-1)
+    difference, saves this as a new video, and saves the resulting mean
+    difference over time
+    """
     start_time = datetime.now()
     args = parse()
 

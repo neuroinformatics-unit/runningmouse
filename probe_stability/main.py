@@ -10,6 +10,13 @@ import tools.tools as tools
 
 
 def main():
+    """
+    Takes two movies (of two bright reference points), finds their centers
+    and plots the movement over time.
+    Assuming equal pixel calibration, the relative distances of these points
+    (i.e. do they move together) is calculated and saved
+    """
+
     start_time = datetime.now()
     args = parse()
 
@@ -59,6 +66,12 @@ def parse():
 
 
 def run_movie(file, sigma=5):
+    """
+    Loads video, and finds the centre of the (singular) bright spot
+    :param file:
+    :param sigma:
+    :return:
+    """
     container = av.open(file)
     centres = []
 

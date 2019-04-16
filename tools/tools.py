@@ -5,6 +5,14 @@ from PIL import Image
 
 
 def get_distances(lista, listb):
+    """
+    Based on two lists of (x,y) coordinate tuples, calculated the euclidean
+    distance between each pair of tuples
+    :param lista:
+    :param listb:
+    :return:
+    """
+
     distances = []
     for idx in range(0, len(lista)):
         distances.append(euclidean(lista[idx], listb[idx]))
@@ -12,6 +20,13 @@ def get_distances(lista, listb):
 
 
 def save_csv(output_dir, name, trace):
+    """
+    Saves a 1D array to "output_dir/name.csv"
+    :param output_dir:
+    :param name:
+    :param trace:
+    :return:
+    """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     filename = os.path.join(output_dir, name + ".csv")
@@ -19,6 +34,14 @@ def save_csv(output_dir, name, trace):
 
 
 def save_movie(output_dir, movie, name=None, basename='frame'):
+    """
+    Saves a 3D numpy array as a series of 2D tiffs
+    :param output_dir:
+    :param movie:
+    :param name:
+    :param basename:
+    :return:
+    """
     if name:
         output_dir = os.path.join(output_dir, name)
     if not os.path.exists(output_dir):

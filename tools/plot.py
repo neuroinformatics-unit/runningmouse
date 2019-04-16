@@ -3,6 +3,14 @@ from matplotlib.widgets import Slider
 
 
 def plot_1d(data, x_label=None, y_label=None, title=None):
+    """
+    Plots a 1D array with provided labels
+    :param data:
+    :param x_label:
+    :param y_label:
+    :param title:
+    :return:
+    """
     plt.figure()
     plt.plot(data)
     if title:
@@ -14,6 +22,16 @@ def plot_1d(data, x_label=None, y_label=None, title=None):
 
 
 def scroll_plot(im1_in, im2_in, title=None, x_label=None, figsize=(12, 12)):
+    """
+    Using matplotlib only, plots two videos (3D numpy arrays) side by side
+    with a scroll bar to move through the timepoints (in sync)
+    :param im1_in:
+    :param im2_in:
+    :param title:
+    :param x_label:
+    :param figsize:
+    :return:
+    """
 
     global im1
     global im2
