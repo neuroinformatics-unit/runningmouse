@@ -5,8 +5,8 @@ from scipy.ndimage.measurements import center_of_mass
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import numpy as np
 
-import probe_stability.plot as ps_plot
-import probe_stability.tools as tools
+import tools.plot as ps_plot
+import tools.tools as tools
 
 
 def main():
@@ -20,11 +20,13 @@ def main():
     video_b = tools.stamp_im(video_b, centres_b)
 
     distances = np.array(tools.get_distances(centres_a, centres_b))
+
     # normalise
     distances = distances - distances[0]
 
-    if args.save:
+    if args.save_csv:
         tools.save_csv(args.output_dir, 'distances', distances)
+    if args.save_movie:
         tools.save_movie(args.output_dir, video_a, 'video_a')
         tools.save_movie(args.output_dir, video_b, 'video_b')
     print('Finished calculations. Total time taken: %s',
@@ -32,7 +34,9 @@ def main():
 
     if args.plot:
         ps_plot.scroll_plot(video_a, video_b, title='Centres')
-        ps_plot.distance_plot(distances)
+        ps_plot.plot_1d(distances, x_label='Time (frames)',
+                        y_label='Centroid distance drift (pixels)',
+                        title='Drift over time')
 
 
 def get_files():
@@ -43,9 +47,11 @@ def get_files():
     parser.add_argument(
         '-o', dest='output_dir', type=str,
         help='Output directory')
-    parser.add_argument('-s', dest='save', action='store_true',
+    parser.add_argument('--save-csv', dest='save_csv', action='store_true',
                         help='Save .csv?')
-    parser.add_argument('-p', dest='plot', action='store_true', help='Plot?')
+    parser.add_argument('--save-movie', dest='save_movie', action='store_true',
+                        help='Save overlay movie frame?')
+    parser.add_argument('--plot', dest='plot', action='store_true', help='Plot?')
     parser.add_argument(
         '--sigma', dest='sigma', type=int, default=1,
         help='Smoothing sigma')
@@ -76,6 +82,7 @@ def run_movie(file, sigma=5):
         t += 1
 
     return video_array, centres
+
 
 if __name__ == '__main__':
     main()
