@@ -55,11 +55,6 @@ def main():
     print('Calculate mean_trace')
     mean_trace = np.mean(difference, axis=(0, 1))
 
-    if args.plot:
-        ps_plot.plot_1d(mean_trace, x_label='Time (frames)',
-                        y_label='Difference (a.u.)',
-                        title='Video difference over time')
-
     if args.save_movie:
         print('Saving')
         tools.save_movie(args.output_dir, difference)
@@ -67,7 +62,13 @@ def main():
     if args.save_csv:
         tools.save_csv(args.output_dir, 'mean_trace', mean_trace)
 
-    print('Finished. Total time taken: %s', datetime.now() - start_time)
+    print('Finished calculations. Total time taken: %s',
+          datetime.now() - start_time)
+
+    if args.plot:
+        ps_plot.plot_1d(mean_trace, x_label='Time (frames)',
+                        y_label='Difference (a.u.)',
+                        title='Video difference over time')
 
 
 def parse():
