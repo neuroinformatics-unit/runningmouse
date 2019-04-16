@@ -18,8 +18,9 @@ def save_csv(output_dir, name, trace):
     np.savetxt(filename, trace)
 
 
-def save_movie(output_dir, movie, name, basename='frame'):
-    output_dir = os.path.join(output_dir, name)
+def save_movie(output_dir, movie, name=None, basename='frame'):
+    if name:
+        output_dir = os.path.join(output_dir, name)
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     for t in range(0, movie.shape[2]):

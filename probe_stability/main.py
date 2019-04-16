@@ -11,7 +11,7 @@ import tools.tools as tools
 
 def main():
     start_time = datetime.now()
-    args = get_files()
+    args = parse()
 
     video_a, centres_a = run_movie(args.files[0], sigma=args.sigma)
     video_b, centres_b = run_movie(args.files[1], sigma=args.sigma)
@@ -27,8 +27,9 @@ def main():
     if args.save_csv:
         tools.save_csv(args.output_dir, 'distances', distances)
     if args.save_movie:
-        tools.save_movie(args.output_dir, video_a, 'video_a')
-        tools.save_movie(args.output_dir, video_b, 'video_b')
+        # TODO: get video filenames
+        tools.save_movie(args.output_dir, video_a, name='video_a')
+        tools.save_movie(args.output_dir, video_b, name='video_b')
     print('Finished calculations. Total time taken: %s',
           datetime.now() - start_time)
 
@@ -39,22 +40,20 @@ def main():
                         title='Drift over time')
 
 
-def get_files():
+def parse():
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
-    parser.add_argument(
-        '-f', '--signal-planes-paths', dest='files', type=str,
-        nargs='+', required=True, help='Movies')
-    parser.add_argument(
-        '-o', dest='output_dir', type=str,
-        help='Output directory')
+    parser.add_argument('-f', '--movie-files', dest='files', type=str,
+                        nargs='+', required=True, help='Movies')
+    parser.add_argument('-o', dest='output_dir', type=str,
+                        help='Output directory')
     parser.add_argument('--save-csv', dest='save_csv', action='store_true',
                         help='Save .csv?')
     parser.add_argument('--save-movie', dest='save_movie', action='store_true',
-                        help='Save overlay movie frame?')
-    parser.add_argument('--plot', dest='plot', action='store_true', help='Plot?')
-    parser.add_argument(
-        '--sigma', dest='sigma', type=int, default=1,
-        help='Smoothing sigma')
+                        help='Save overlay movie frames?')
+    parser.add_argument('--plot', dest='plot', action='store_true',
+                        help='Plot?')
+    parser.add_argument('--sigma', dest='sigma', type=int, default=1,
+                        help='Smoothing sigma')
     args = parser.parse_args()
     return args
 
